@@ -53,12 +53,12 @@
 
 
     <dependency>
-    <groupId>com.platinum</groupId>
-    <artifactId>Integracion</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <scope>provided</scope> <!-- Cambiado a provided -->
+    	<groupId>com.platinum</groupId>
+    	<artifactId>Integracion</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	 <scope>test</scope>
     </dependency>
-
+    
     <dependency>
 	    <groupId>io.cucumber</groupId>
 	    <artifactId>cucumber-java</artifactId>
