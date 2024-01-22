@@ -11,48 +11,49 @@ pipeline {
             }
         }
 
-        stage('Configurar JDK y Maven') {
+        stage('Compilar y Empaquetar') {
             steps {
                 script {
-                    // Configurar JDK y Maven
-                    tool 'JDK8'
-                    tool 'Maven'
+                    // Compilar y empaquetar con Maven
+                    sh 'mvn clean package'
                 }
             }
         }
 
-        stage('Compilar y Ejecutar Pruebas') {
+        stage('Ejecutar Pruebas Unitarias') {
             steps {
                 script {
-                    // Compilar y ejecutar pruebas
-                    withMaven(
-                        maven: 'Maven',
-                        jdk: 'JDK8',
-                        mavenSettingsConfig: 'config-settings'
-                    ) {
-                        sh 'mvn clean test'
-                    }
+                    // Ejecutar pruebas unitarias con Maven y JUnit
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Ejecutar Pruebas de Integración') {
+            steps {
+                script {
+                    // Ejecutar pruebas de integración con Cucumber y Selenium
+                    sh 'mvn clean test -Pintegration-tests'
                 }
             }
         }
 
         stage('Desplegar') {
             steps {
-                script {
-                    // Puedes agregar acciones de implementación o notificación aquí
-                    echo 'Despliegue exitoso'
-                }
+                // Agrega aquí los comandos para desplegar tu aplicación si es necesario
             }
         }
     }
 
     post {
         success {
-            echo '¡Pruebas exitosas! Puedes proceder con el despliegue.'
+            // Pasos a seguir si el pipeline es exitoso
+            echo 'El pipeline se ejecutó exitosamente.'
         }
 
         failure {
-            echo 'Las pruebas fallaron. Revisa los resultados y realiza correcciones si es necesario.'
+            // Pasos a seguir si el pipeline falla
+            echo 'El pipeline ha fallado. Revisar los resultados y corregir.'
         }
     }
 }
