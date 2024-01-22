@@ -4,35 +4,55 @@ pipeline {
     stages {
         stage('Clonar Repositorio') {
             steps {
-                // Pasos para clonar el repositorio
+                script {
+                    // Clonar el repositorio
+                    checkout scm
+                }
             }
         }
 
-        stage('Construir') {
+        stage('Configurar JDK y Maven') {
             steps {
-                // Pasos para construir tu proyecto (por ejemplo, ejecutar Maven)
+                script {
+                    // Configurar JDK y Maven
+                    tool 'JDK8'
+                    tool 'Maven'
+                }
             }
         }
 
-        stage('Pruebas Unitarias') {
+        stage('Compilar y Ejecutar Pruebas') {
             steps {
-                // Pasos para ejecutar pruebas unitarias
+                script {
+                    // Compilar y ejecutar pruebas
+                    withMaven(
+                        maven: 'Maven',
+                        jdk: 'JDK8',
+                        mavenSettingsConfig: 'config-settings'
+                    ) {
+                        sh 'mvn clean test'
+                    }
+                }
             }
         }
 
         stage('Desplegar') {
             steps {
-                // Pasos para desplegar tu aplicación (si es necesario)
+                script {
+                    // Puedes agregar acciones de implementación o notificación aquí
+                    echo 'Despliegue exitoso'
+                }
             }
         }
     }
 
     post {
         success {
-            // Acciones a realizar si la construcción tiene éxito
+            echo '¡Pruebas exitosas! Puedes proceder con el despliegue.'
         }
+
         failure {
-            // Acciones a realizar si la construcción falla
+            echo 'Las pruebas fallaron. Revisa los resultados y realiza correcciones si es necesario.'
         }
     }
 }
