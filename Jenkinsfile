@@ -1,61 +1,38 @@
 pipeline {
     agent any
-    
-    environment {
-        M2_HOME = tool 'Maven'
-        PATH = "$M2_HOME/bin:$PATH"
-    }
 
     stages {
-        stage('Setup') {
+        stage('Clonar Repositorio') {
             steps {
-                script {
-                    // Configurar variables de entorno y otras configuraciones
-                    sh 'echo "Configurando variables de entorno y herramientas"'
-                }
+                // Pasos para clonar el repositorio
             }
         }
 
-        stage('Build') {
+        stage('Construir') {
             steps {
-                script {
-                    // Construir el proyecto Maven
-                    sh 'mvn clean install'
-                }
+                // Pasos para construir tu proyecto (por ejemplo, ejecutar Maven)
             }
         }
 
-        stage('Test') {
+        stage('Pruebas Unitarias') {
             steps {
-                script {
-                    // Ejecutar pruebas unitarias y automatizadas
-                    sh 'mvn test'
-                }
+                // Pasos para ejecutar pruebas unitarias
             }
         }
 
-        stage('Deploy') {
+        stage('Desplegar') {
             steps {
-                script {
-                    // Implementar o realizar acciones posteriores
-                    sh 'echo "Implementando o realizando acciones posteriores"'
-                }
+                // Pasos para desplegar tu aplicación (si es necesario)
             }
         }
     }
 
     post {
-        always {
-            // Acciones que se ejecutan siempre, independientemente del resultado del pipeline
-            echo 'Finalizando el pipeline'
-        }
         success {
-            // Acciones que se ejecutan solo si el pipeline tiene éxito
-            echo 'El pipeline se ejecutó exitosamente'
+            // Acciones a realizar si la construcción tiene éxito
         }
         failure {
-            // Acciones que se ejecutan solo si el pipeline falla
-            echo 'El pipeline ha fallado'
+            // Acciones a realizar si la construcción falla
         }
     }
 }
